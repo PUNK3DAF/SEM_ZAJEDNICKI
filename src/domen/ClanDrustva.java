@@ -108,7 +108,7 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiNazivTabele() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "clandrustva";
     }
 
     @Override
@@ -118,17 +118,27 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiKoloneZaUbacivanje() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "clanIme,clanPol,clanGod,clanBrTel,admin";
     }
 
     @Override
     public String vratiVrednostiZaUbacivanje() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String ime = (clanIme == null) ? "NULL" : ("'" + clanIme.replace("'", "''") + "'");
+        String pol = (clanPol == null) ? "NULL" : ("'" + clanPol.replace("'", "''") + "'");
+        String god = String.valueOf(clanGod);
+        String tel = (clanBrTel == null) ? "NULL" : ("'" + clanBrTel.replace("'", "''") + "'");
+        String a;
+        if (admin == null) {
+            a = "NULL";
+        } else {
+            a = String.valueOf(admin.getAdminID());
+        }
+        return ime + "," + pol + "," + god + "," + tel + "," + a;
     }
 
     @Override
     public String vratiPrimarniKljuc() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "clandrustva.clanID=" + clanID;
     }
 
     @Override
@@ -137,8 +147,18 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
     }
 
     @Override
-    public String vratiVeednostiZaIzmenu() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String vratiVrednostiZaIzmenu() {
+        String ime = (clanIme == null) ? "NULL" : ("'" + clanIme.replace("'", "''") + "'");
+        String pol = (clanPol == null) ? "NULL" : ("'" + clanPol.replace("'", "''") + "'");
+        String god = String.valueOf(clanGod); // int -> uvek broj
+        String tel = (clanBrTel == null) ? "NULL" : ("'" + clanBrTel.replace("'", "''") + "'");
+        String a;
+        if (admin == null) {
+            a = "NULL";
+        } else {
+            a = String.valueOf(admin.getAdminID());
+        }
+        return "clanIme=" + ime + ",clanPol=" + pol + ",clanGod=" + god + ",clanBrTel=" + tel + ",admin=" + a;
     }
 
 }

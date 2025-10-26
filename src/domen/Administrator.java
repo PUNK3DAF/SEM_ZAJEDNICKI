@@ -5,6 +5,7 @@
 package domen;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -92,27 +93,45 @@ public class Administrator implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiNazivTabele() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "administrator";
     }
 
     @Override
     public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<ApstraktniDomenskiObjekat> lista = new ArrayList<>();
+        while (rs.next()) {
+            int adminId = rs.getInt("administrator.adminID");
+            String username = rs.getString("administrator.adminUsername");
+            String pass = rs.getString("administrator.adminPassword");
+            String ime = rs.getString("administrator.adminIme");
+
+            Administrator a = new Administrator();
+            a.setAdminID(adminId);
+            a.setAdminUsername(username);
+            a.setAdminPassword(pass);
+            a.setAdminIme(ime);
+
+            lista.add(a);
+        }
+        return lista;
     }
 
     @Override
     public String vratiKoloneZaUbacivanje() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "adminUsername,adminPassword,adminIme";
     }
 
     @Override
     public String vratiVrednostiZaUbacivanje() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String u = (adminUsername == null) ? "NULL" : ("'" + adminUsername.replace("'", "''") + "'");
+        String p = (adminPassword == null) ? "NULL" : ("'" + adminPassword.replace("'", "''") + "'");
+        String i = (adminIme == null) ? "NULL" : ("'" + adminIme.replace("'", "''") + "'");
+        return u + "," + p + "," + i;
     }
 
     @Override
     public String vratiPrimarniKljuc() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "administrator.adminID=" + adminID;
     }
 
     @Override
@@ -121,8 +140,11 @@ public class Administrator implements ApstraktniDomenskiObjekat {
     }
 
     @Override
-    public String vratiVeednostiZaIzmenu() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String vratiVrednostiZaIzmenu() {
+        String u = (adminUsername == null) ? "NULL" : ("'" + adminUsername.replace("'", "''") + "'");
+        String p = (adminPassword == null) ? "NULL" : ("'" + adminPassword.replace("'", "''") + "'");
+        String i = (adminIme == null) ? "NULL" : ("'" + adminIme.replace("'", "''") + "'");
+        return "adminUsername=" + u + ",adminPassword=" + p + ",adminIme=" + i;
     }
 
 }

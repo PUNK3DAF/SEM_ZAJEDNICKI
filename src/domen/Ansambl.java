@@ -88,7 +88,7 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiNazivTabele() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "ansambl";
     }
 
     @Override
@@ -98,17 +98,25 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiKoloneZaUbacivanje() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "imeAnsambla,opisAnsambla,admin";
     }
 
     @Override
     public String vratiVrednostiZaUbacivanje() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String ime = (imeAnsambla == null) ? "NULL" : ("'" + imeAnsambla.replace("'", "''") + "'");
+        String opis = (opisAnsambla == null) ? "NULL" : ("'" + opisAnsambla.replace("'", "''") + "'");
+        String a;
+        if (admin == null) {
+            a = "NULL";
+        } else {
+            a = String.valueOf(admin.getAdminID());
+        }
+        return ime + "," + opis + "," + a;
     }
 
     @Override
     public String vratiPrimarniKljuc() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "ansambl.ansamblID=" + ansamblID;
     }
 
     @Override
@@ -117,8 +125,16 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
     }
 
     @Override
-    public String vratiVeednostiZaIzmenu() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String vratiVrednostiZaIzmenu() {
+        String ime = (imeAnsambla == null) ? "NULL" : ("'" + imeAnsambla.replace("'", "''") + "'");
+        String opis = (opisAnsambla == null) ? "NULL" : ("'" + opisAnsambla.replace("'", "''") + "'");
+        String a;
+        if (admin == null) {
+            a = "NULL";
+        } else {
+            a = String.valueOf(admin.getAdminID()); // adminID je int
+        }
+        return "imeAnsambla=" + ime + ",opisAnsambla=" + opis + ",admin=" + a;
     }
 
 }

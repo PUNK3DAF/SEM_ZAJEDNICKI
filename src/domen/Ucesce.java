@@ -82,7 +82,7 @@ public class Ucesce implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiNazivTabele() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "ucesce";
     }
 
     @Override
@@ -92,17 +92,32 @@ public class Ucesce implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiKoloneZaUbacivanje() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "clan,ansambl,uloga";
     }
 
     @Override
     public String vratiVrednostiZaUbacivanje() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String c;
+        if (clan == null) {
+            c = "NULL";
+        } else {
+            c = String.valueOf(clan.getClanID());
+        }
+        String an;
+        if (ansambl == null) {
+            an = "NULL";
+        } else {
+            an = String.valueOf(ansambl.getAnsamblID());
+        }
+        String u = (uloga == null) ? "NULL" : ("'" + uloga.replace("'", "''") + "'");
+        return c + "," + an + "," + u;
     }
 
     @Override
     public String vratiPrimarniKljuc() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String c = (clan == null) ? "NULL" : String.valueOf(clan.getClanID());
+        String a = (ansambl == null) ? "NULL" : String.valueOf(ansambl.getAnsamblID());
+        return "ucesce.clan=" + c + " AND ucesce.ansambl=" + a;
     }
 
     @Override
@@ -111,8 +126,8 @@ public class Ucesce implements ApstraktniDomenskiObjekat {
     }
 
     @Override
-    public String vratiVeednostiZaIzmenu() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String vratiVrednostiZaIzmenu() {
+        String u = (uloga == null) ? "NULL" : ("'" + uloga.replace("'", "''") + "'");
+        return "uloga=" + u;
     }
-
 }
