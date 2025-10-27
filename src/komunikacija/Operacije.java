@@ -11,5 +11,6 @@ import java.io.Serializable;
  * @author vldmrk
  */
 public enum Operacije implements Serializable {
+    LOGIN
 
 }
