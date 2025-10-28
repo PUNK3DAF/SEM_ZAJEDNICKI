@@ -100,10 +100,10 @@ public class Administrator implements ApstraktniDomenskiObjekat {
     public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws Exception {
         List<ApstraktniDomenskiObjekat> lista = new ArrayList<>();
         while (rs.next()) {
-            int adminId = rs.getInt("administrator.adminID");
-            String username = rs.getString("administrator.adminUsername");
-            String pass = rs.getString("administrator.adminPassword");
-            String ime = rs.getString("administrator.adminIme");
+            int adminId = rs.getInt("adminID");
+            String username = rs.getString("adminUsername");
+            String pass = rs.getString("adminPassword");
+            String ime = rs.getString("adminIme");
 
             Administrator a = new Administrator();
             a.setAdminID(adminId);
