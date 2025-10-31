@@ -5,8 +5,10 @@
 package domen;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.sql.SQLException;
 
 /**
  *
@@ -87,7 +89,69 @@ public class Ucesce implements ApstraktniDomenskiObjekat {
 
     @Override
     public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<ApstraktniDomenskiObjekat> lista = new ArrayList<>();
+        while (rs.next()) {
+            // read FK ids
+            int clanId = 0;
+            try {
+                clanId = rs.getInt("clan");
+                if (rs.wasNull()) {
+                    clanId = 0;
+                }
+            } catch (SQLException ex) {
+                clanId = 0;
+            }
+
+            int ansId = 0;
+            try {
+                ansId = rs.getInt("ansambl");
+                if (rs.wasNull()) {
+                    ansId = 0;
+                }
+            } catch (SQLException ex) {
+                ansId = 0;
+            }
+            String clanIme = null;
+            try {
+                clanIme = rs.getString("clanIme"); // from clandrustva
+            } catch (SQLException ex) {
+                clanIme = null;
+            }
+
+            String ansIme = null;
+            try {
+                ansIme = rs.getString("imeAnsambla"); // from ansambl
+            } catch (SQLException ex) {
+                ansIme = null;
+            }
+
+            String ulogaKol = null;
+            try {
+                ulogaKol = rs.getString("uloga");
+            } catch (SQLException ex) {
+                ulogaKol = null;
+            }
+
+            ClanDrustva c = new ClanDrustva();
+            c.setClanID(clanId);
+            if (clanIme != null) {
+                c.setClanIme(clanIme);
+            }
+
+            Ansambl a = new Ansambl();
+            a.setAnsamblID(ansId);
+            if (ansIme != null) {
+                a.setImeAnsambla(ansIme);
+            }
+
+            Ucesce u = new Ucesce();
+            u.setClan(c);
+            u.setAnsambl(a);
+            u.setUloga(ulogaKol);
+
+            lista.add(u);
+        }
+        return lista;
     }
 
     @Override
