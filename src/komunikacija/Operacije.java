@@ -16,6 +16,7 @@ public enum Operacije implements Serializable {
     OBRISI_ANSAMBL,
     DODAJ_ANSAMBL,
     AZURIRAJ_ANSAMBL,
+    UCITAJ_ANSAMBL,
     UCITAJ_CLANOVE,
     OBRISI_CLAN,
     DODAJ_CLAN,
