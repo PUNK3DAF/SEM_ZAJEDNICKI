@@ -10,6 +10,7 @@ import java.io.Serializable;
 public enum Operacije implements Serializable {
     ADMIN_LOGIN,
     UCITAJ_ANSAMBLE,
+    UCITAJ_UCESCA, // pomocna operacija
     KREIRAJ_CLANA_DRUSTVA,
     UCITAJ_CLANOVE,
     NADJI_CLANA_DRUSTVA,
