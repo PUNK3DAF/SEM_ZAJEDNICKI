@@ -15,7 +15,6 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
     private String imeAnsambla;
     private String opisAnsambla;
     private Administrator admin;
-    private List<Ucesce> ucesca;
     private int obrisan;
 
     public Ansambl() {
@@ -68,14 +67,6 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
 
     public void setObrisan(int obrisan) {
         this.obrisan = obrisan;
-    }
-
-    public List<Ucesce> getUcesca() {
-        return ucesca;
-    }
-
-    public void setUcesca(List<Ucesce> ucesca) {
-        this.ucesca = ucesca;
     }
 
     @Override
