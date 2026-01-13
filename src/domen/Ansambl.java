@@ -15,7 +15,7 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
     private String imeAnsambla;
     private String opisAnsambla;
     private Administrator admin;
-    private List<Ucesce> ucesca; // pomocno polje
+    private List<Ucesce> ucesca;
     private int obrisan;
 
     public Ansambl() {
@@ -182,7 +182,7 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
         if (admin == null) {
             a = "NULL";
         } else {
-            a = String.valueOf(admin.getAdminID()); // adminID je int
+            a = String.valueOf(admin.getAdminID());
         }
         String o = String.valueOf(obrisan);
         return "imeAnsambla=" + ime + ",opisAnsambla=" + opis + ",admin=" + a + ",obrisan=" + o;

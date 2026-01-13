@@ -87,7 +87,6 @@ public class Ucesce implements ApstraktniDomenskiObjekat {
     public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws Exception {
         List<ApstraktniDomenskiObjekat> lista = new ArrayList<>();
         while (rs.next()) {
-            // read FK ids
             int clanId = 0;
             try {
                 clanId = rs.getInt("clan");
@@ -109,14 +108,14 @@ public class Ucesce implements ApstraktniDomenskiObjekat {
             }
             String clanIme = null;
             try {
-                clanIme = rs.getString("clanIme"); // from clandrustva
+                clanIme = rs.getString("clanIme");
             } catch (SQLException ex) {
                 clanIme = null;
             }
 
             String ansIme = null;
             try {
-                ansIme = rs.getString("imeAnsambla"); // from ansambl
+                ansIme = rs.getString("imeAnsambla");
             } catch (SQLException ex) {
                 ansIme = null;
             }

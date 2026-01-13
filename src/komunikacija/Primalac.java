@@ -19,7 +19,6 @@ public class Primalac {
     public Primalac(Socket s) {
         this.s = s;
         try {
-            // Kreiramo ObjectInputStream jednom; ponovna kreacija može izazvati header probleme
             this.ois = new ObjectInputStream(s.getInputStream());
         } catch (IOException ex) {
             Logger.getLogger(Primalac.class.getName()).log(Level.SEVERE, null, ex);

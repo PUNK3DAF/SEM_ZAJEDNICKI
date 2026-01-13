@@ -18,7 +18,6 @@ public class Posiljalac {
     public Posiljalac(Socket s) {
         this.s = s;
         try {
-            // Kreirati ObjectOutputStream jednom i flush-ovati header
             this.oos = new ObjectOutputStream(s.getOutputStream());
             this.oos.flush();
         } catch (IOException ex) {
