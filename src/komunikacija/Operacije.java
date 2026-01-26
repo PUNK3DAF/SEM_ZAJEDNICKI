@@ -21,5 +21,9 @@ public enum Operacije implements Serializable {
     NADJI_ANSAMBL,
     UCITAJ_ANSAMBL,
     IZMENA_ANSAMBLA,
-    OBRISI_ANSAMBL
+    OBRISI_ANSAMBL,
+    KREIRAJ_ZANR,
+    UCITAJ_ZANROVE,
+    IZMENI_ZANR,
+    OBRISI_ZANR
 }
