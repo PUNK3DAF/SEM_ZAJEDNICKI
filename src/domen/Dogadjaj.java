@@ -109,13 +109,13 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
     @Override
     public String vratiKoloneZaUbacivanje() {
         return "naziv, datum, mestoID";
-    }return n + ", " + d + ", " + mestoID
+    }
+
     @Override
     public String vratiVrednostiZaUbacivanje() {
         String n = (naziv == null) ? "NULL" : "'" + naziv.replace("'", "''") + "'";
         String d = (datum == null) ? "NULL" : "'" + datum.toString() + "'";
-        String m = (mesto == null || mesto.getMestoID() == null) ? "NULL" : mesto.getMestoID().toString();
-        return n + ", " + d + ", " + m;
+        return n + ", " + d + ", " + mestoID;
     }
 
     @Override
@@ -129,7 +129,6 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
         d.setDogadjajID(rs.getInt("dogadjajID"));
         d.setNaziv(rs.getString("naziv"));
         d.setDatum(rs.getDate("datum").toLocalDate());
-        
         d.setMestoID(rs.getInt("mestoID"));
         
         // If mesto name is available from joined result, create Mesto object
@@ -143,14 +142,15 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
             }
         } catch (Exception e) {
             // Column doesn't exist, skip
+        }
         return d;
     }
-return "naziv=" + n + ", datum=" + d + ", mestoID=" + mestoID
+
+    @Override
     public String vratiVrednostiZaIzmenu() {
         String n = (naziv == null) ? "NULL" : "'" + naziv.replace("'", "''") + "'";
         String d = (datum == null) ? "NULL" : "'" + datum.toString() + "'";
-        String m = (mesto == null || mesto.getMestoID() == null) ? "NULL" : mesto.getMestoID().toString();
-        return "naziv=" + n + ", datum=" + d + ", mestoID=" + m;
+        return "naziv=" + n + ", datum=" + d + ", mestoID=" + mestoID;
     }
 
     @Override
