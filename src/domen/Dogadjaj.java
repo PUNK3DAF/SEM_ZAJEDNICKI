@@ -87,7 +87,7 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
             d.setDogadjajID(rs.getInt("dogadjajID"));
             d.setNaziv(rs.getString("naziv"));
             d.setDatum(rs.getDate("datum").toLocalDate());
-            d.setMestoID(rs.getInt("mestoID"));
+            d.setMestoID(rs.getInt("mesto"));
             
             // If mesto name is available from joined result, create Mesto object
             try {
@@ -108,7 +108,7 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiKoloneZaUbacivanje() {
-        return "naziv, datum, mestoID";
+        return "naziv, datum, mesto";
     }
 
     @Override
@@ -129,7 +129,7 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
         d.setDogadjajID(rs.getInt("dogadjajID"));
         d.setNaziv(rs.getString("naziv"));
         d.setDatum(rs.getDate("datum").toLocalDate());
-        d.setMestoID(rs.getInt("mestoID"));
+        d.setMestoID(rs.getInt("mesto"));
         
         // If mesto name is available from joined result, create Mesto object
         try {
@@ -150,7 +150,7 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
     public String vratiVrednostiZaIzmenu() {
         String n = (naziv == null) ? "NULL" : "'" + naziv.replace("'", "''") + "'";
         String d = (datum == null) ? "NULL" : "'" + datum.toString() + "'";
-        return "naziv=" + n + ", datum=" + d + ", mestoID=" + mestoID;
+        return "naziv=" + n + ", datum=" + d + ", mesto=" + mestoID;
     }
 
     @Override
