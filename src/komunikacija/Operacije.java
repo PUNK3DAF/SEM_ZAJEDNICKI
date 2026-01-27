@@ -33,5 +33,9 @@ public enum Operacije implements Serializable {
     KREIRAJ_MESTO,
     UCITAJ_MESTA,
     IZMENI_MESTO,
-    OBRISI_MESTO
+    OBRISI_MESTO,
+    KREIRAJ_DOGADJAJ,
+    UCITAJ_DOGADJAJE,
+    IZMENI_DOGADJAJ,
+    OBRISI_DOGADJAJ
 }
