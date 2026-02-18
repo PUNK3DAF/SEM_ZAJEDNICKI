@@ -2,7 +2,6 @@ package domen;
 
 import java.sql.ResultSet;
 import java.util.List;
-import java.sql.SQLException;
 
 /**
  *
@@ -15,11 +14,9 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
     private String clanPol;
     private int clanGod;
     private String clanBrTel;
-    private int obrisan;
     private Administrator admin;
 
     public ClanDrustva() {
-        this.obrisan = 0;
     }
 
     public ClanDrustva(int clanID, String clanIme, String clanPol, int clanGod, String clanBrTel, Administrator admin) {
@@ -29,7 +26,6 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
         this.clanGod = clanGod;
         this.clanBrTel = clanBrTel;
         this.admin = admin;
-        this.obrisan = 0;
     }
 
     public int getClanID() {
@@ -78,14 +74,6 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
 
     public void setAdmin(Administrator admin) {
         this.admin = admin;
-    }
-
-    public int getObrisan() {
-        return obrisan;
-    }
-
-    public void setObrisan(int obrisan) {
-        this.obrisan = obrisan;
     }
 
     @Override
@@ -139,16 +127,6 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
                 a.setAdminID(adminId);
             }
 
-            int ob;
-            try {
-                ob = rs.getInt("obrisan");
-                if (rs.wasNull()) {
-                    ob = 0;
-                }
-            } catch (SQLException e) {
-                ob = 0;
-            }
-
             ClanDrustva c = new ClanDrustva();
             c.setClanID(id);
             c.setClanIme(ime);
@@ -156,7 +134,6 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
             c.setClanGod(god);
             c.setClanBrTel(tel);
             c.setAdmin(a);
-            c.setObrisan(ob);
             lista.add(c);
         }
         return lista;
@@ -164,7 +141,7 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiKoloneZaUbacivanje() {
-        return "clanIme,clanPol,clanGod,clanBrTel,admin,obrisan";
+        return "clanIme,clanPol,clanGod,clanBrTel,admin";
     }
 
     @Override
@@ -179,8 +156,7 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
         } else {
             a = String.valueOf(admin.getAdminID());
         }
-        String o = String.valueOf(obrisan);
-        return ime + "," + pol + "," + god + "," + tel + "," + a + "," + o;
+        return ime + "," + pol + "," + god + "," + tel + "," + a;
     }
 
     @Override
@@ -205,8 +181,7 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
         } else {
             a = String.valueOf(admin.getAdminID());
         }
-        String o = String.valueOf(obrisan);
-        return "clanIme=" + ime + ",clanPol=" + pol + ",clanGod=" + god + ",clanBrTel=" + tel + ",admin=" + a + ",obrisan=" + o;
+        return "clanIme=" + ime + ",clanPol=" + pol + ",clanGod=" + god + ",clanBrTel=" + tel + ",admin=" + a;
     }
 
 }

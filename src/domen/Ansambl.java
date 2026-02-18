@@ -1,7 +1,6 @@
 package domen;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +15,8 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
     private String opisAnsambla;
     private Administrator admin;
     private List<Ucesce> ucesca;
-    private int obrisan;
 
     public Ansambl() {
-        obrisan = 0;
     }
 
     public Ansambl(int ansamblID, String imeAnsambla, String opisAnsambla, Administrator admin) {
@@ -27,7 +24,6 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
         this.imeAnsambla = imeAnsambla;
         this.opisAnsambla = opisAnsambla;
         this.admin = admin;
-        this.obrisan = 0;
     }
 
     public int getAnsamblID() {
@@ -60,14 +56,6 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
 
     public void setAdmin(Administrator admin) {
         this.admin = admin;
-    }
-
-    public int getObrisan() {
-        return obrisan;
-    }
-
-    public void setObrisan(int obrisan) {
-        this.obrisan = obrisan;
     }
 
     public List<Ucesce> getUcesca() {
@@ -124,22 +112,11 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
                 a.setAdminID(adminId);
             }
 
-            int ob = 0;
-            try {
-                ob = rs.getInt("obrisan");
-                if (rs.wasNull()) {
-                    ob = 0;
-                }
-            } catch (SQLException e) {
-                ob = 0;
-            }
-
             Ansambl ans = new Ansambl();
             ans.setAnsamblID(id);
             ans.setImeAnsambla(ime);
             ans.setOpisAnsambla(opis);
             ans.setAdmin(a);
-            ans.setObrisan(ob);
             lista.add(ans);
         }
         return lista;
@@ -147,7 +124,7 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiKoloneZaUbacivanje() {
-        return "imeAnsambla,opisAnsambla,admin,obrisan";
+        return "imeAnsambla,opisAnsambla,admin";
     }
 
     @Override
@@ -160,8 +137,7 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
         } else {
             a = String.valueOf(admin.getAdminID());
         }
-        String o = String.valueOf(obrisan);
-        return ime + "," + opis + "," + a + "," + o;
+        return ime + "," + opis + "," + a;
     }
 
     @Override
@@ -184,8 +160,7 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
         } else {
             a = String.valueOf(admin.getAdminID());
         }
-        String o = String.valueOf(obrisan);
-        return "imeAnsambla=" + ime + ",opisAnsambla=" + opis + ",admin=" + a + ",obrisan=" + o;
+        return "imeAnsambla=" + ime + ",opisAnsambla=" + opis + ",admin=" + a;
     }
 
 }
