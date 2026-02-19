@@ -14,6 +14,8 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
     private String imeAnsambla;
     private String opisAnsambla;
     private Administrator admin;
+    private int zanrID;
+    private Zanr zanr;
     private List<Ucesce> ucesca;
 
     public Ansambl() {
@@ -56,6 +58,25 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
 
     public void setAdmin(Administrator admin) {
         this.admin = admin;
+    }
+
+    public int getZanrID() {
+        return zanrID;
+    }
+
+    public void setZanrID(int zanrID) {
+        this.zanrID = zanrID;
+    }
+
+    public Zanr getZanr() {
+        return zanr;
+    }
+
+    public void setZanr(Zanr zanr) {
+        this.zanr = zanr;
+        if (zanr != null) {
+            this.zanrID = zanr.getZanrID();
+        }
     }
 
     public List<Ucesce> getUcesca() {
@@ -112,11 +133,37 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
                 a.setAdminID(adminId);
             }
 
+            int zId = 0;
+            try {
+                zId = rs.getInt("zanr");
+                if (rs.wasNull()) {
+                    zId = 0;
+                }
+            } catch (Exception e) {
+                zId = 0;
+            }
+
+            Zanr z = null;
+            try {
+                String zanrNaziv = rs.getString("zanrNaziv");
+                if (zanrNaziv != null && !zanrNaziv.isEmpty()) {
+                    z = new Zanr();
+                    z.setZanrID(zId);
+                    z.setNaziv(zanrNaziv);
+                }
+            } catch (Exception e) {
+                // zanr ne postoji iz joine
+            }
+
             Ansambl ans = new Ansambl();
             ans.setAnsamblID(id);
             ans.setImeAnsambla(ime);
             ans.setOpisAnsambla(opis);
             ans.setAdmin(a);
+            ans.setZanrID(zId);
+            if (z != null) {
+                ans.setZanr(z);
+            }
             lista.add(ans);
         }
         return lista;
@@ -124,7 +171,7 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiKoloneZaUbacivanje() {
-        return "imeAnsambla,opisAnsambla,admin";
+        return "imeAnsambla,opisAnsambla,admin,zanr";
     }
 
     @Override
@@ -137,7 +184,8 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
         } else {
             a = String.valueOf(admin.getAdminID());
         }
-        return ime + "," + opis + "," + a;
+        String z = (zanrID == 0) ? "NULL" : String.valueOf(zanrID);
+        return ime + "," + opis + "," + a + "," + z;
     }
 
     @Override
@@ -160,7 +208,8 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
         } else {
             a = String.valueOf(admin.getAdminID());
         }
-        return "imeAnsambla=" + ime + ",opisAnsambla=" + opis + ",admin=" + a;
+        String z = (zanrID == 0) ? "NULL" : String.valueOf(zanrID);
+        return "imeAnsambla=" + ime + ",opisAnsambla=" + opis + ",admin=" + a + ",zanr=" + z;
     }
 
 }
