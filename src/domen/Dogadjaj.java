@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import domen.Ansambl;
 
 /**
  *
@@ -20,6 +21,8 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
     private LocalDate datum;
     private int mestoID;
     private Mesto mesto;
+    private int ansamblID;
+    private Ansambl ansambl;
 
     public Dogadjaj() {
     }
@@ -29,6 +32,14 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
         this.naziv = naziv;
         this.datum = datum;
         this.mestoID = mestoID;
+    }
+
+    public Dogadjaj(int dogadjajID, String naziv, LocalDate datum, int mestoID, int ansamblID) {
+        this.dogadjajID = dogadjajID;
+        this.naziv = naziv;
+        this.datum = datum;
+        this.mestoID = mestoID;
+        this.ansamblID = ansamblID;
     }
 
     public int getDogadjajID() {
@@ -74,6 +85,25 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
         }
     }
 
+    public int getAnsamblID() {
+        return ansamblID;
+    }
+
+    public void setAnsamblID(int ansamblID) {
+        this.ansamblID = ansamblID;
+    }
+
+    public Ansambl getAnsambl() {
+        return ansambl;
+    }
+
+    public void setAnsambl(Ansambl ansambl) {
+        this.ansambl = ansambl;
+        if (ansambl != null) {
+            this.ansamblID = ansambl.getAnsamblID();
+        }
+    }
+
     @Override
     public String vratiNazivTabele() {
         return "dogadjaj";
@@ -88,6 +118,7 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
             d.setNaziv(rs.getString("naziv"));
             d.setDatum(rs.getDate("datum").toLocalDate());
             d.setMestoID(rs.getInt("mesto"));
+            d.setAnsamblID(rs.getInt("ansambl"));
             
             // If mesto name is available from joined result, create Mesto object
             try {
@@ -108,14 +139,14 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiKoloneZaUbacivanje() {
-        return "naziv, datum, mesto";
+        return "naziv, datum, mesto, ansambl";
     }
 
     @Override
     public String vratiVrednostiZaUbacivanje() {
         String n = (naziv == null) ? "NULL" : "'" + naziv.replace("'", "''") + "'";
         String d = (datum == null) ? "NULL" : "'" + datum.toString() + "'";
-        return n + ", " + d + ", " + mestoID;
+        return n + ", " + d + ", " + mestoID + ", " + ansamblID;
     }
 
     @Override
@@ -130,6 +161,7 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
         d.setNaziv(rs.getString("naziv"));
         d.setDatum(rs.getDate("datum").toLocalDate());
         d.setMestoID(rs.getInt("mesto"));
+        d.setAnsamblID(rs.getInt("ansambl"));
         
         // If mesto name is available from joined result, create Mesto object
         try {
@@ -150,7 +182,7 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
     public String vratiVrednostiZaIzmenu() {
         String n = (naziv == null) ? "NULL" : "'" + naziv.replace("'", "''") + "'";
         String d = (datum == null) ? "NULL" : "'" + datum.toString() + "'";
-        return "naziv=" + n + ", datum=" + d + ", mesto=" + mestoID;
+        return "naziv=" + n + ", datum=" + d + ", mesto=" + mestoID + ", ansambl=" + ansamblID;
     }
 
     @Override
