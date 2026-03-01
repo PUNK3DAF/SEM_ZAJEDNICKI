@@ -19,27 +19,25 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
     private int dogadjajID;
     private String naziv;
     private LocalDate datum;
-    private int mestoID;
     private Mesto mesto;
-    private int ansamblID;
     private Ansambl ansambl;
 
     public Dogadjaj() {
     }
 
-    public Dogadjaj(int dogadjajID, String naziv, LocalDate datum, int mestoID) {
+    public Dogadjaj(int dogadjajID, String naziv, LocalDate datum, Mesto mesto) {
         this.dogadjajID = dogadjajID;
         this.naziv = naziv;
         this.datum = datum;
-        this.mestoID = mestoID;
+        this.mesto = mesto;
     }
 
-    public Dogadjaj(int dogadjajID, String naziv, LocalDate datum, int mestoID, int ansamblID) {
+    public Dogadjaj(int dogadjajID, String naziv, LocalDate datum, Mesto mesto, Ansambl ansambl) {
         this.dogadjajID = dogadjajID;
         this.naziv = naziv;
         this.datum = datum;
-        this.mestoID = mestoID;
-        this.ansamblID = ansamblID;
+        this.mesto = mesto;
+        this.ansambl = ansambl;
     }
 
     public int getDogadjajID() {
@@ -66,31 +64,12 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
         this.datum = datum;
     }
 
-    public int getMestoID() {
-        return mestoID;
-    }
-
-    public void setMestoID(int mestoID) {
-        this.mestoID = mestoID;
-    }
-
     public Mesto getMesto() {
         return mesto;
     }
 
     public void setMesto(Mesto mesto) {
         this.mesto = mesto;
-        if (mesto != null) {
-            this.mestoID = mesto.getMestoID();
-        }
-    }
-
-    public int getAnsamblID() {
-        return ansamblID;
-    }
-
-    public void setAnsamblID(int ansamblID) {
-        this.ansamblID = ansamblID;
     }
 
     public Ansambl getAnsambl() {
@@ -99,9 +78,6 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
 
     public void setAnsambl(Ansambl ansambl) {
         this.ansambl = ansambl;
-        if (ansambl != null) {
-            this.ansamblID = ansambl.getAnsamblID();
-        }
     }
 
     @Override
@@ -117,21 +93,37 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
             d.setDogadjajID(rs.getInt("dogadjajID"));
             d.setNaziv(rs.getString("naziv"));
             d.setDatum(rs.getDate("datum").toLocalDate());
-            d.setMestoID(rs.getInt("mesto"));
-            d.setAnsamblID(rs.getInt("ansambl"));
             
-            // If mesto name is available from joined result, create Mesto object
+            // Create Mesto object
+            int mestoId = rs.getInt("mesto");
+            Mesto m = new Mesto();
+            m.setMestoID(mestoId);
             try {
                 String mestoNaziv = rs.getString("mestoNaziv");
                 if (mestoNaziv != null) {
-                    Mesto m = new Mesto();
-                    m.setMestoID(d.getMestoID());
                     m.setNaziv(mestoNaziv);
-                    d.setMesto(m);
                 }
             } catch (Exception e) {
                 // Column doesn't exist, skip
             }
+            d.setMesto(m);
+            
+            // Create Ansambl object
+            int ansamblId = rs.getInt("ansambl");
+            if (!rs.wasNull()) {
+                Ansambl a = new Ansambl();
+                a.setAnsamblID(ansamblId);
+                try {
+                    String ansamblNaziv = rs.getString("imeAnsambla");
+                    if (ansamblNaziv != null) {
+                        a.setImeAnsambla(ansamblNaziv);
+                    }
+                } catch (Exception e) {
+                    // Column doesn't exist, skip
+                }
+                d.setAnsambl(a);
+            }
+            
             lista.add(d);
         }
         return lista;
@@ -146,7 +138,9 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
     public String vratiVrednostiZaUbacivanje() {
         String n = (naziv == null) ? "NULL" : "'" + naziv.replace("'", "''") + "'";
         String d = (datum == null) ? "NULL" : "'" + datum.toString() + "'";
-        return n + ", " + d + ", " + mestoID + ", " + ansamblID;
+        String m = (mesto == null) ? "NULL" : String.valueOf(mesto.getMestoID());
+        String a = (ansambl == null) ? "NULL" : String.valueOf(ansambl.getAnsamblID());
+        return n + ", " + d + ", " + m + ", " + a;
     }
 
     @Override
@@ -160,21 +154,37 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
         d.setDogadjajID(rs.getInt("dogadjajID"));
         d.setNaziv(rs.getString("naziv"));
         d.setDatum(rs.getDate("datum").toLocalDate());
-        d.setMestoID(rs.getInt("mesto"));
-        d.setAnsamblID(rs.getInt("ansambl"));
         
-        // If mesto name is available from joined result, create Mesto object
+        // Create Mesto object
+        int mestoId = rs.getInt("mesto");
+        Mesto m = new Mesto();
+        m.setMestoID(mestoId);
         try {
             String mestoNaziv = rs.getString("mestoNaziv");
             if (mestoNaziv != null) {
-                Mesto m = new Mesto();
-                m.setMestoID(d.getMestoID());
                 m.setNaziv(mestoNaziv);
-                d.setMesto(m);
             }
         } catch (Exception e) {
             // Column doesn't exist, skip
         }
+        d.setMesto(m);
+        
+        // Create Ansambl object
+        int ansamblId = rs.getInt("ansambl");
+        if (!rs.wasNull()) {
+            Ansambl a = new Ansambl();
+            a.setAnsamblID(ansamblId);
+            try {
+                String ansamblNaziv = rs.getString("imeAnsambla");
+                if (ansamblNaziv != null) {
+                    a.setImeAnsambla(ansamblNaziv);
+                }
+            } catch (Exception e) {
+                // Column doesn't exist, skip
+            }
+            d.setAnsambl(a);
+        }
+        
         return d;
     }
 
@@ -182,7 +192,9 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
     public String vratiVrednostiZaIzmenu() {
         String n = (naziv == null) ? "NULL" : "'" + naziv.replace("'", "''") + "'";
         String d = (datum == null) ? "NULL" : "'" + datum.toString() + "'";
-        return "naziv=" + n + ", datum=" + d + ", mesto=" + mestoID + ", ansambl=" + ansamblID;
+        String m = (mesto == null) ? "NULL" : String.valueOf(mesto.getMestoID());
+        String a = (ansambl == null) ? "NULL" : String.valueOf(ansambl.getAnsamblID());
+        return "naziv=" + n + ", datum=" + d + ", mesto=" + m + ", ansambl=" + a;
     }
 
     @Override
