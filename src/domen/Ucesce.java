@@ -14,12 +14,12 @@ public class Ucesce implements ApstraktniDomenskiObjekat {
 
     private ClanDrustva clan;
     private Ansambl ansambl;
-    private String uloga;
+    private Uloga uloga;
 
     public Ucesce() {
     }
 
-    public Ucesce(ClanDrustva clan, Ansambl ansambl, String uloga) {
+    public Ucesce(ClanDrustva clan, Ansambl ansambl, Uloga uloga) {
         this.clan = clan;
         this.ansambl = ansambl;
         this.uloga = uloga;
@@ -41,11 +41,11 @@ public class Ucesce implements ApstraktniDomenskiObjekat {
         this.ansambl = ansambl;
     }
 
-    public String getUloga() {
+    public Uloga getUloga() {
         return uloga;
     }
 
-    public void setUloga(String uloga) {
+    public void setUloga(Uloga uloga) {
         this.uloga = uloga;
     }
 
@@ -75,7 +75,7 @@ public class Ucesce implements ApstraktniDomenskiObjekat {
 
     @Override
     public String toString() {
-        return uloga;
+        return uloga != null ? uloga.getNaziv() : "";
     }
 
     @Override
@@ -120,11 +120,20 @@ public class Ucesce implements ApstraktniDomenskiObjekat {
                 ansIme = null;
             }
 
-            String ulogaKol = null;
+            int ulogaId = 0;
+            String ulogaNaziv = null;
             try {
-                ulogaKol = rs.getString("uloga");
+                ulogaId = rs.getInt("ulogaID");
+                if (rs.wasNull()) {
+                    ulogaId = 0;
+                }
             } catch (SQLException ex) {
-                ulogaKol = null;
+                ulogaId = 0;
+            }
+            try {
+                ulogaNaziv = rs.getString("ulogaNaziv");
+            } catch (SQLException ex) {
+                ulogaNaziv = null;
             }
 
             ClanDrustva c = new ClanDrustva();
@@ -139,10 +148,16 @@ public class Ucesce implements ApstraktniDomenskiObjekat {
                 a.setImeAnsambla(ansIme);
             }
 
+            Uloga uloga = new Uloga();
+            uloga.setUlogaID(ulogaId);
+            if (ulogaNaziv != null) {
+                uloga.setNaziv(ulogaNaziv);
+            }
+
             Ucesce u = new Ucesce();
             u.setClan(c);
             u.setAnsambl(a);
-            u.setUloga(ulogaKol);
+            u.setUloga(uloga);
 
             lista.add(u);
         }
@@ -168,7 +183,7 @@ public class Ucesce implements ApstraktniDomenskiObjekat {
         } else {
             an = String.valueOf(ansambl.getAnsamblID());
         }
-        String u = (uloga == null) ? "NULL" : ("'" + uloga.replace("'", "''") + "'");
+        String u = (uloga == null) ? "NULL" : String.valueOf(uloga.getUlogaID());
         return c + "," + an + "," + u;
     }
 
@@ -186,7 +201,7 @@ public class Ucesce implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiVrednostiZaIzmenu() {
-        String u = (uloga == null) ? "NULL" : ("'" + uloga.replace("'", "''") + "'");
+        String u = (uloga == null) ? "NULL" : String.valueOf(uloga.getUlogaID());
         return "uloga=" + u;
     }
 }

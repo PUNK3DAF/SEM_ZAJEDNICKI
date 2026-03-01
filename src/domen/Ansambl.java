@@ -16,16 +16,19 @@ public class Ansambl implements ApstraktniDomenskiObjekat {
     private Administrator admin;
     private int zanrID;
     private Zanr zanr;
-    private List<Ucesce> ucesca;
+    private List<Ucesce> ucesca; // pomocno polje
 
     public Ansambl() {
     }
 
-    public Ansambl(int ansamblID, String imeAnsambla, String opisAnsambla, Administrator admin) {
+    public Ansambl(int ansamblID, String imeAnsambla, String opisAnsambla, Administrator admin, int zanrID, Zanr zanr, List<Ucesce> ucesca) {
         this.ansamblID = ansamblID;
         this.imeAnsambla = imeAnsambla;
         this.opisAnsambla = opisAnsambla;
         this.admin = admin;
+        this.zanrID = zanrID;
+        this.zanr = zanr;
+        this.ucesca = ucesca;
     }
 
     public int getAnsamblID() {
