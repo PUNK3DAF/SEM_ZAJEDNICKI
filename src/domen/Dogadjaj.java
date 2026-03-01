@@ -25,13 +25,6 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
     public Dogadjaj() {
     }
 
-    public Dogadjaj(int dogadjajID, String naziv, LocalDate datum, Mesto mesto) {
-        this.dogadjajID = dogadjajID;
-        this.naziv = naziv;
-        this.datum = datum;
-        this.mesto = mesto;
-    }
-
     public Dogadjaj(int dogadjajID, String naziv, LocalDate datum, Mesto mesto, Ansambl ansambl) {
         this.dogadjajID = dogadjajID;
         this.naziv = naziv;
@@ -93,7 +86,7 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
             d.setDogadjajID(rs.getInt("dogadjajID"));
             d.setNaziv(rs.getString("naziv"));
             d.setDatum(rs.getDate("datum").toLocalDate());
-            
+
             // Create Mesto object
             int mestoId = rs.getInt("mesto");
             Mesto m = new Mesto();
@@ -107,7 +100,7 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
                 // Column doesn't exist, skip
             }
             d.setMesto(m);
-            
+
             // Create Ansambl object
             int ansamblId = rs.getInt("ansambl");
             if (!rs.wasNull()) {
@@ -123,7 +116,7 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
                 }
                 d.setAnsambl(a);
             }
-            
+
             lista.add(d);
         }
         return lista;
@@ -154,7 +147,7 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
         d.setDogadjajID(rs.getInt("dogadjajID"));
         d.setNaziv(rs.getString("naziv"));
         d.setDatum(rs.getDate("datum").toLocalDate());
-        
+
         // Create Mesto object
         int mestoId = rs.getInt("mesto");
         Mesto m = new Mesto();
@@ -168,7 +161,7 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
             // Column doesn't exist, skip
         }
         d.setMesto(m);
-        
+
         // Create Ansambl object
         int ansamblId = rs.getInt("ansambl");
         if (!rs.wasNull()) {
@@ -184,7 +177,7 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
             }
             d.setAnsambl(a);
         }
-        
+
         return d;
     }
 
@@ -202,4 +195,3 @@ public class Dogadjaj implements ApstraktniDomenskiObjekat {
         return naziv;
     }
 }
-
