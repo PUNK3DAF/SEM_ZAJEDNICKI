@@ -140,6 +140,7 @@ public class Ucesce implements ApstraktniDomenskiObjekat {
             c.setClanID(clanId);
             if (clanIme != null) {
                 c.setClanIme(clanIme);
+                c.setClanEmail(ClanDrustva.formirajEmail(clanIme));
             }
 
             Ansambl a = new Ansambl();

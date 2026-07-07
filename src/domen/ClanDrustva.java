@@ -1,6 +1,8 @@
 package domen;
 
 import java.sql.ResultSet;
+import java.text.Normalizer;
+import java.util.Locale;
 import java.util.List;
 
 /**
@@ -14,6 +16,7 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
     private String clanPol;
     private int clanGod;
     private String clanBrTel;
+    private String clanEmail;
     private Administrator admin;
 
     public ClanDrustva() {
@@ -68,6 +71,14 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
         this.clanBrTel = clanBrTel;
     }
 
+    public String getClanEmail() {
+        return clanEmail;
+    }
+
+    public void setClanEmail(String clanEmail) {
+        this.clanEmail = clanEmail;
+    }
+
     public Administrator getAdmin() {
         return admin;
     }
@@ -107,6 +118,39 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
         return "clandrustva";
     }
 
+    public static String formirajEmail(String punoIme) {
+        if (punoIme == null) {
+            return null;
+        }
+
+        String transliterated = punoIme
+                .replace("Đ", "Dj")
+                .replace("đ", "dj")
+                .replace("Č", "C")
+                .replace("č", "c")
+                .replace("Ć", "C")
+                .replace("ć", "c")
+                .replace("Š", "S")
+                .replace("š", "s")
+                .replace("Ž", "Z")
+                .replace("ž", "z");
+
+        String normalized = Normalizer.normalize(transliterated, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}+", "")
+                .toLowerCase(Locale.ROOT)
+                .replaceAll("[^a-z0-9]+", "");
+
+        if (normalized.isEmpty()) {
+            return null;
+        }
+
+        return normalized + "@gmail.com";
+    }
+
+    public static boolean jeValidanEmail(String email) {
+        return email != null && email.matches("^[a-z0-9]+(?:[._-][a-z0-9]+)*@gmail\\.com$");
+    }
+
     @Override
     public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws Exception {
         List<ApstraktniDomenskiObjekat> lista = new java.util.ArrayList<>();
@@ -119,6 +163,15 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
                 god = 0;
             }
             String tel = rs.getString("clanBrTel");
+            String email = null;
+            try {
+                email = rs.getString("clanEmail");
+            } catch (Exception ex) {
+                email = null;
+            }
+            if (email == null || email.trim().isEmpty()) {
+                email = formirajEmail(ime);
+            }
 
             Administrator a = null;
             int adminId = rs.getInt("admin");
@@ -133,6 +186,7 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
             c.setClanPol(pol);
             c.setClanGod(god);
             c.setClanBrTel(tel);
+            c.setClanEmail(email);
             c.setAdmin(a);
             lista.add(c);
         }
@@ -141,7 +195,7 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiKoloneZaUbacivanje() {
-        return "clanIme,clanPol,clanGod,clanBrTel,admin";
+        return "clanIme,clanPol,clanGod,clanBrTel,clanEmail,admin";
     }
 
     @Override
@@ -150,13 +204,15 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
         String pol = (clanPol == null) ? "NULL" : ("'" + clanPol.replace("'", "''") + "'");
         String god = String.valueOf(clanGod);
         String tel = (clanBrTel == null) ? "NULL" : ("'" + clanBrTel.replace("'", "''") + "'");
+        String email = (clanEmail == null) ? formirajEmail(clanIme) : clanEmail;
+        String em = (email == null) ? "NULL" : ("'" + email.replace("'", "''") + "'");
         String a;
         if (admin == null) {
             a = "NULL";
         } else {
             a = String.valueOf(admin.getAdminID());
         }
-        return ime + "," + pol + "," + god + "," + tel + "," + a;
+        return ime + "," + pol + "," + god + "," + tel + "," + em + "," + a;
     }
 
     @Override
@@ -175,13 +231,15 @@ public class ClanDrustva implements ApstraktniDomenskiObjekat {
         String pol = (clanPol == null) ? "NULL" : ("'" + clanPol.replace("'", "''") + "'");
         String god = String.valueOf(clanGod);
         String tel = (clanBrTel == null) ? "NULL" : ("'" + clanBrTel.replace("'", "''") + "'");
+        String email = (clanEmail == null) ? formirajEmail(clanIme) : clanEmail;
+        String em = (email == null) ? "NULL" : ("'" + email.replace("'", "''") + "'");
         String a;
         if (admin == null) {
             a = "NULL";
         } else {
             a = String.valueOf(admin.getAdminID());
         }
-        return "clanIme=" + ime + ",clanPol=" + pol + ",clanGod=" + god + ",clanBrTel=" + tel + ",admin=" + a;
+        return "clanIme=" + ime + ",clanPol=" + pol + ",clanGod=" + god + ",clanBrTel=" + tel + ",clanEmail=" + em + ",admin=" + a;
     }
 
 }
